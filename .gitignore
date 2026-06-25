@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Data & model artifacts (large; not for git)
+data/
+!data/sample/
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+*.faiss
+*.index
+runs/            # TensorBoard logs
+wandb/
+
+# Frontend
+node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Env / secrets
+.env
+.env.local
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
