@@ -1,0 +1,23 @@
+# Core ML — torch/torchvision are installed SEPARATELY from the cu128 index:
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
+# (RTX 5060 is Blackwell sm_120 → requires cu128 wheels; CPU/cu126 wheels won't run on it.)
+numpy
+pillow
+
+# Backbones & data
+transformers
+timm
+
+# Vector search
+faiss-cpu
+
+# Training utilities
+tensorboard
+tqdm
+
+# API (used from Week 7; pinned here so the env stays stable)
+fastapi
+uvicorn[standard]
+
+# Dev
+pytest
