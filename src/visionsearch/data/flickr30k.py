@@ -63,9 +63,11 @@ def download_flickr30k(data_dir: Path) -> tuple[Path, Path]:
         images_dir.mkdir(exist_ok=True)
         with zipfile.ZipFile(zip_cached) as z:
             # The zip stores files under flickr30k-images/<name>.jpg — flatten into images/.
+            # The archive was built on macOS, so skip AppleDouble junk (._name.jpg, __MACOSX/).
             for member in z.namelist():
-                if member.endswith(".jpg"):
-                    target = images_dir / Path(member).name
+                name = Path(member).name
+                if name.endswith(".jpg") and not name.startswith("._") and "__MACOSX" not in member:
+                    target = images_dir / name
                     if not target.exists():
                         with z.open(member) as src, open(target, "wb") as dst:
                             dst.write(src.read())
