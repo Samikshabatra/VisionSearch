@@ -7,6 +7,10 @@ pillow
 # Backbones & data
 transformers
 timm
+huggingface-hub   # raw-file dataset download (we avoid the `datasets` lib: pandas is blocked)
+
+# Visualization
+matplotlib
 
 # Vector search
 faiss-cpu
