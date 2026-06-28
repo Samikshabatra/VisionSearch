@@ -12,8 +12,9 @@ env/
 .ipynb_checkpoints/
 
 # Data & model artifacts (large; not for git)
-data/
-!data/sample/
+# Anchored to repo root so it does NOT match src/visionsearch/data/ (a code package).
+/data/
+!/data/sample/
 checkpoints/
 *.pt
 *.pth
