@@ -9,7 +9,7 @@ in a shared embedding space, then retrieves images by natural-language query.
 
 <!-- Status badges -->
 ![Status](https://img.shields.io/badge/status-in%20progress-yellow)
-![Week](https://img.shields.io/badge/roadmap-Week%204%20of%208-blue)
+![Week](https://img.shields.io/badge/roadmap-Week%205%20of%208-blue)
 ![Python](https://img.shields.io/badge/python-3.11-blue)
 ![PyTorch](https://img.shields.io/badge/PyTorch-cu128-ee4c2c)
 ![GPU](https://img.shields.io/badge/GPU-RTX%205060%20(8GB)-76b900)
@@ -100,8 +100,8 @@ something.
 | 2 | Flickr30k data pipeline (Dataset, transforms, leakage-free splits) | ✅ done |
 | 3 | Model: frozen encoders + projection heads + dual-encoder forward | ✅ done |
 | 4 | Symmetric InfoNCE loss + AMP + gradient accumulation | ✅ done |
-| 5 | Full training & tuning | ⏳ next |
-| 6 | Evaluation: Recall@K vs CLIP baseline | ◻️ |
+| 5 | Full training & tuning | ✅ done |
+| 6 | Evaluation: Recall@K vs CLIP baseline | ⏳ next |
 | 7 | Search app: FAISS index + FastAPI + React UI | ◻️ |
 | 8 | Deploy to Hugging Face Spaces + polish docs | ◻️ |
 
