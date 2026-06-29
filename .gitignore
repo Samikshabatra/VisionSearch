@@ -30,6 +30,9 @@ node_modules/
 frontend/dist/
 frontend/.vite/
 
+# Deploy assets (large + dataset licensing; shipped to HF Space via LFS, not GitHub)
+deploy/assets/
+
 # Env / secrets
 .env
 .env.local
