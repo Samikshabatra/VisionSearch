@@ -9,7 +9,7 @@ in a shared embedding space, then retrieves images by natural-language query.
 
 <!-- Status badges -->
 ![Status](https://img.shields.io/badge/status-in%20progress-yellow)
-![Week](https://img.shields.io/badge/roadmap-Week%206%20of%208-blue)
+![Week](https://img.shields.io/badge/roadmap-Week%207%20of%208-blue)
 ![Python](https://img.shields.io/badge/python-3.11-blue)
 ![PyTorch](https://img.shields.io/badge/PyTorch-cu128-ee4c2c)
 ![GPU](https://img.shields.io/badge/GPU-RTX%205060%20(8GB)-76b900)
@@ -119,8 +119,8 @@ alignment works. Full report: [docs/eval_report.md](docs/eval_report.md).
 | 4 | Symmetric InfoNCE loss + AMP + gradient accumulation | ✅ done |
 | 5 | Full training & tuning | ✅ done |
 | 6 | Evaluation: Recall@K vs CLIP baseline | ✅ done |
-| 7 | Search app: FAISS index + FastAPI + React UI | ⏳ next |
-| 8 | Deploy to Hugging Face Spaces + polish docs | ◻️ |
+| 7 | Search app: FAISS index + FastAPI + React UI | ✅ done |
+| 8 | Deploy to Hugging Face Spaces + polish docs | ⏳ next |
 
 ## Project structure
 
@@ -159,6 +159,21 @@ pip install -e .
 
 # Verify the GPU is usable
 python scripts/check_env.py
+```
+
+### Run the search app (after training)
+
+```bash
+# 1. get data + train + build the gallery index
+python scripts/download_data.py
+python scripts/train.py --epochs 5 --batch-size 32 --accum 4
+python scripts/build_index.py
+
+# 2. start the API (serves /search, /images, and the built frontend)
+python -m uvicorn backend.main:app --port 8020
+
+# 3. dev frontend (separate terminal; proxies to the API on :8020)
+cd frontend && npm install && npm run dev
 ```
 
 ## License
