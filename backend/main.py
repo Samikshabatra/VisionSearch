@@ -11,7 +11,7 @@ from pydantic import BaseModel
 from visionsearch.config import CONFIG
 from backend.search_service import SearchService
 
-IMAGES = CONFIG.data_dir / "flickr30k" / "images"
+IMAGES = CONFIG.images_dir
 FRONTEND_DIST = Path(__file__).resolve().parents[1] / "frontend" / "dist"
 
 app = FastAPI(title="VisionSearch")

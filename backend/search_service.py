@@ -8,19 +8,17 @@ from visionsearch.config import CONFIG
 from visionsearch.index.faiss_index import ImageIndex
 from visionsearch.models.dual_encoder import DualEncoder
 
-GALLERY_DIR = CONFIG.data_dir / "flickr30k" / "gallery"
-
 
 class SearchService:
     def __init__(self) -> None:
         self.device = CONFIG.device
         self.model = DualEncoder().to(self.device)
-        ckpt = torch.load(CONFIG.checkpoint_dir / "visionsearch.pt", map_location=self.device)
+        ckpt = torch.load(CONFIG.checkpoint_path, map_location=self.device)
         self.model.image_head.load_state_dict(ckpt["image_head"])
         self.model.text_head.load_state_dict(ckpt["text_head"])
         self.model.eval()
         self.tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
-        self.index = ImageIndex.load(GALLERY_DIR)
+        self.index = ImageIndex.load(CONFIG.gallery_dir)
 
     @torch.no_grad()
     def search(self, query: str, k: int = 12) -> list[dict]:

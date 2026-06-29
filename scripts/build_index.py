@@ -19,7 +19,7 @@ IMAGES = DATA / "images"
 def main() -> None:
     anns = load_annotations(DATA / "flickr_annotations_30k.csv", split="test")
     model = DualEncoder().to(CONFIG.device)
-    ckpt = torch.load(CONFIG.checkpoint_dir / "visionsearch.pt", map_location=CONFIG.device)
+    ckpt = torch.load(CONFIG.checkpoint_path, map_location=CONFIG.device)
     model.image_head.load_state_dict(ckpt["image_head"])
     model.text_head.load_state_dict(ckpt["text_head"])
     model.eval()

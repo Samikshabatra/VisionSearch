@@ -9,3 +9,9 @@ def test_config_has_core_fields():
     assert CONFIG.device in ("cuda", "cpu")
     assert isinstance(CONFIG.data_dir, Path)
     assert isinstance(CONFIG.checkpoint_dir, Path)
+
+
+def test_config_has_deploy_paths():
+    assert isinstance(CONFIG.gallery_dir, Path)
+    assert isinstance(CONFIG.images_dir, Path)
+    assert isinstance(CONFIG.checkpoint_path, Path)
