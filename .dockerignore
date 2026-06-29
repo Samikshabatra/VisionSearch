@@ -1,0 +1,13 @@
+.venv/
+**/__pycache__/
+.git/
+data/
+checkpoints/
+runs/
+wandb/
+frontend/node_modules/
+frontend/dist/
+docs/
+.pytest_cache/
+*.md
+!deploy/README_hf.md
