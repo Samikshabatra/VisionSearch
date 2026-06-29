@@ -9,7 +9,7 @@ in a shared embedding space, then retrieves images by natural-language query.
 
 <!-- Status badges -->
 ![Status](https://img.shields.io/badge/status-in%20progress-yellow)
-![Week](https://img.shields.io/badge/roadmap-Week%205%20of%208-blue)
+![Week](https://img.shields.io/badge/roadmap-Week%206%20of%208-blue)
 ![Python](https://img.shields.io/badge/python-3.11-blue)
 ![PyTorch](https://img.shields.io/badge/PyTorch-cu128-ee4c2c)
 ![GPU](https://img.shields.io/badge/GPU-RTX%205060%20(8GB)-76b900)
@@ -90,6 +90,23 @@ resists. The efficiency moves that resolve that tension:
 **next to raw pretrained CLIP** on the same test set — the baseline delta is what makes the number mean
 something.
 
+## Results
+
+Flickr30k **test** split (1000 images, 5000 captions), text→image Recall@K (%):
+
+| Metric | VisionSearch (ours) | Raw CLIP (zero-shot) | Chance |
+|---|---|---|---|
+| R@1 | 19.2 | 58.8 | ~0.1 |
+| R@5 | 48.1 | 83.4 | ~0.5 |
+| R@10 | 61.1 | 90.1 | ~1.0 |
+
+Honest read: we train **only ~0.5M projection-head parameters** on a **frozen, ImageNet-supervised**
+backbone with 29k images on a single 8 GB laptop GPU. Raw CLIP trained its *entire encoder* on ~400M
+image–text pairs, so it's the performance ceiling — not a controlled match. Our model is **~190× better
+than chance** at R@1 and retrieves semantically correct images for free-text queries (see
+[qualitative examples](docs/qualitative_examples.png)), demonstrating that the from-scratch contrastive
+alignment works. Full report: [docs/eval_report.md](docs/eval_report.md).
+
 ## Roadmap
 
 `environment → data → model → loss/training → evaluate vs baseline → app → deploy → document`
@@ -101,8 +118,8 @@ something.
 | 3 | Model: frozen encoders + projection heads + dual-encoder forward | ✅ done |
 | 4 | Symmetric InfoNCE loss + AMP + gradient accumulation | ✅ done |
 | 5 | Full training & tuning | ✅ done |
-| 6 | Evaluation: Recall@K vs CLIP baseline | ⏳ next |
-| 7 | Search app: FAISS index + FastAPI + React UI | ◻️ |
+| 6 | Evaluation: Recall@K vs CLIP baseline | ✅ done |
+| 7 | Search app: FAISS index + FastAPI + React UI | ⏳ next |
 | 8 | Deploy to Hugging Face Spaces + polish docs | ◻️ |
 
 ## Project structure
