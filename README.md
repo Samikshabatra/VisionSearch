@@ -8,8 +8,8 @@ A **from-scratch contrastive dual-encoder** (CLIP-style) that learns to align te
 in a shared embedding space, then retrieves images by natural-language query.
 
 <!-- Status badges -->
-![Status](https://img.shields.io/badge/status-in%20progress-yellow)
-![Week](https://img.shields.io/badge/roadmap-Week%207%20of%208-blue)
+![Status](https://img.shields.io/badge/status-all%208%20weeks%20complete-success)
+![Week](https://img.shields.io/badge/roadmap-8%20of%208%20✓-blue)
 ![Python](https://img.shields.io/badge/python-3.11-blue)
 ![PyTorch](https://img.shields.io/badge/PyTorch-cu128-ee4c2c)
 ![GPU](https://img.shields.io/badge/GPU-RTX%205060%20(8GB)-76b900)
@@ -120,7 +120,7 @@ alignment works. Full report: [docs/eval_report.md](docs/eval_report.md).
 | 5 | Full training & tuning | ✅ done |
 | 6 | Evaluation: Recall@K vs CLIP baseline | ✅ done |
 | 7 | Search app: FAISS index + FastAPI + React UI | ✅ done |
-| 8 | Deploy to Hugging Face Spaces + polish docs | ⏳ next |
+| 8 | Deploy to Hugging Face Spaces + polish docs | ✅ done |
 
 ## Project structure
 
@@ -175,6 +175,22 @@ python -m uvicorn backend.main:app --port 8020
 # 3. dev frontend (separate terminal; proxies to the API on :8020)
 cd frontend && npm install && npm run dev
 ```
+
+## Deploy (Hugging Face Spaces)
+
+One container — FastAPI serves the built frontend + search API on port 7860.
+
+```bash
+python scripts/prepare_deploy.py --gallery-size 500   # assemble deploy/assets
+docker build -t visionsearch .                         # multi-stage build
+docker run -p 7860:7860 visionsearch                   # open http://localhost:7860
+```
+
+To publish on a Hugging Face **Docker** Space:
+
+1. Create a Space (SDK: Docker); use [`deploy/README_hf.md`](deploy/README_hf.md) as its `README.md`.
+2. Ship the (gitignored) demo assets via LFS: `git lfs track "deploy/assets/**"` then `git add -f deploy/assets`.
+3. Push the repo (code + LFS assets) to the Space's git remote — the container builds and serves automatically.
 
 ## License
 
