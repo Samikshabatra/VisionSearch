@@ -21,7 +21,8 @@ checkpoints/
 *.ckpt
 *.faiss
 *.index
-runs/            # TensorBoard logs
+# TensorBoard / experiment logs
+runs/
 wandb/
 
 # Frontend
