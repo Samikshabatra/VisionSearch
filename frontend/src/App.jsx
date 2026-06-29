@@ -1,21 +1,28 @@
 import { useState } from "react";
 
+const EXAMPLES = [
+  "a dog running on the beach",
+  "two people riding bicycles",
+  "a man playing guitar",
+  "children playing in a park",
+  "a woman in a red dress",
+];
+
 export default function App() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  async function handleSearch(e) {
-    e.preventDefault();
-    if (!query.trim()) return;
+  async function runQuery(q) {
+    if (!q.trim()) return;
     setLoading(true);
     setError("");
     try {
       const res = await fetch("/search", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query, k: 12 }),
+        body: JSON.stringify({ query: q, k: 12 }),
       });
       if (!res.ok) throw new Error(`search failed (${res.status})`);
       const data = await res.json();
@@ -28,6 +35,16 @@ export default function App() {
     }
   }
 
+  function handleSearch(e) {
+    e.preventDefault();
+    runQuery(query);
+  }
+
+  function handleExample(q) {
+    setQuery(q);
+    runQuery(q);
+  }
+
   return (
     <div className="min-h-screen bg-neutral-950 text-neutral-100 px-6 py-10">
       <header className="max-w-3xl mx-auto text-center mb-8">
@@ -35,7 +52,7 @@ export default function App() {
         <p className="text-neutral-400 mt-2">Type a sentence, get the matching images.</p>
       </header>
 
-      <form onSubmit={handleSearch} className="max-w-2xl mx-auto flex gap-2 mb-10">
+      <form onSubmit={handleSearch} className="max-w-2xl mx-auto flex gap-2 mb-4">
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
@@ -49,6 +66,20 @@ export default function App() {
           {loading ? "Searching…" : "Search"}
         </button>
       </form>
+
+      <div className="max-w-2xl mx-auto flex flex-wrap gap-2 mb-10">
+        <span className="text-sm text-neutral-500 self-center">Try:</span>
+        {EXAMPLES.map((q) => (
+          <button
+            key={q}
+            onClick={() => handleExample(q)}
+            disabled={loading}
+            className="rounded-full border border-neutral-700 bg-neutral-900 px-3 py-1 text-sm text-neutral-300 hover:border-indigo-500 hover:text-white disabled:opacity-50"
+          >
+            {q}
+          </button>
+        ))}
+      </div>
 
       {error && <p className="text-center text-red-400 mb-6">{error}</p>}
 
