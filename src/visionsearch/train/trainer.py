@@ -22,6 +22,7 @@ def fit(
     use_amp: bool = True,
     log_dir: str | None = None,
     max_steps: int | None = None,
+    on_epoch_end=None,
 ) -> list[float]:
     model.to(device)
     loss_fn.to(device)
@@ -42,7 +43,7 @@ def fit(
     history: list[float] = []
     step = 0
     optimizer.zero_grad()
-    for _ in range(epochs):
+    for epoch in range(epochs):
         for i, batch in enumerate(batches):
             batch = {k: v.to(device) for k, v in batch.items()}
             with autocast(device_type=device, enabled=amp_on):
@@ -60,6 +61,8 @@ def fit(
             step += 1
             if max_steps is not None and step >= max_steps:
                 break
+        if on_epoch_end is not None:
+            on_epoch_end(epoch)
         if max_steps is not None and step >= max_steps:
             break
 

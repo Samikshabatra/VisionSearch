@@ -20,3 +20,17 @@ def test_overfits_a_fixed_batch():
                   device=CONFIG.device, use_amp=False)
     assert history[-1] < history[0]
     assert history[-1] < 0.5 * history[0]
+
+
+def test_on_epoch_end_fires_each_epoch():
+    batch = {
+        "pixel_values": torch.randn(4, 3, 224, 224),
+        "input_ids": torch.randint(0, 1000, (4, 8)),
+        "attention_mask": torch.ones(4, 8, dtype=torch.long),
+    }
+    model = DualEncoder()
+    loss_fn = ContrastiveLoss()
+    seen = []
+    fit(model, loss_fn, [batch], epochs=3, device=CONFIG.device, use_amp=False,
+        on_epoch_end=lambda e: seen.append(e))
+    assert seen == [0, 1, 2]
